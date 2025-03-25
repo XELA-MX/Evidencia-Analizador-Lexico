@@ -41,7 +41,7 @@ El estado Q9 juega un rol decisivo: actúa como **estado de rechazo absorbente**
 
 La estrategia del autómata se basa en tres principios: **eficiencia**, al activar estados intermedios solo ante símbolos críticos; **prevención**, al reiniciar la búsqueda ante símbolos irrelevantes; y **cerrazón**, al bloquear el rechazo definitivo tras detectar una secuencia prohibida. Este diseño asegura que el autómata opere de manera óptima para el alfabeto , cumpliendo estrictamente con las restricciones impuestas trabajando de la siguiente manera:
 
-
+![]()
 
 | E | 0 | 1 | 2 |
 |---|---|---|---|
@@ -199,3 +199,64 @@ Esta implementación valida cadenas que, tras procesar todos los símbolos, term
 Para las pruebas del automata se pueden encontrar en el archivo Evidencia-1-Tests.pl y a continuación se muestran los resultados de este:
 
 ![](Tests.jpg)
+
+![]()
+
+# Otras Implementaciones
+
+Vamos a explorar métodos alternativos de implementación de autómatas y sus diferencias con Prolog.
+
+## **Python**
+
+
+Los autómatas finitos pueden implementarse en múltiples lenguajes de programación, cada uno con enfoques y ventajas particulares. A continuación, se analizan opciones como Python y prolog.
+
+
+Python, como lenguaje de propósito general, permite definir autómatas mediante bibliotecas especializadas (como lo es 'automaton'). A diferencia de Prolog, requiere una especificación explícita de estados y transiciones antes de ejecutar cualquier lógica.
+
+```python
+
+from automaton import machines
+
+# Crear un autómata finito
+automaton = machines.FiniteMachine()
+
+# Definir estados
+automaton.add_state('q0', accepting=True)  # Estado inicial y final
+automaton.add_state('q1')
+automaton.add_state('q9', accepting=False)  # Estado de rechazo
+
+# Definir transiciones
+automaton.add_transition('q0', 'q1', '1')   # q0 → q1 con símbolo '1'
+automaton.add_transition('q1', 'q9', '0')   # q1 → q9 con símbolo '0'
+automaton.add_transition('q9', 'q9', '0')   # q9 absorbe símbolos
+
+automaton.default_start_state = 'q0'  # Estado inicial
+
+# Validar cadena
+print(automaton.accepts(['1', '0']))  # Output: False (termina en q9)
+
+```
+
+En Python, la implementación es imperativa osea que el programador debe definir manualmente cada componente. Esto contrasta con Prolog, donde las reglas lógicas y el backtracking hacen más sencillo el análisis de lenguajes.
+
+## Prolog ¿ En verdad es tan eficiente?
+
+Prolog está diseñado para manejar lógica simbólica y gramáticas formales, lo que lo hace ideal para autómatas. Su enfoque declarativo permite definir transiciones como hechos y reglas, evitando la necesidad de bucles o estructuras de control explícitas. Por ejemplo, una transición como transition(q0, 1, q1) se integra directamente con el motor de Prolog, optimizando la validación de cadenas mediante unificación y recursión.
+
+Esta eficiencia lo hace superior para problemas como la detección de patrones en lenguajes regulares, donde la complejidad temporal debe mantenerse lineal (O(n)).
+
+
+# Referencias
+
+Lookahead and Lookbehind Tutorial—Tips &Tricks. (s. f.). https://www.rexegg.com/regex-lookarounds.php
+
+Formato de la evidencia y apoyo para la creación de la misma:
+
+Zathiald. (s. f.). GitHub - Zathiald/automaton: Evidence 1 of the course Implementation of Computational methods. GitHub. https://github.com/Zathiald/automaton/tree/main
+
+re — Regular expression operations. (s. f.). Python Documentation. https://docs.python.org/3/library/re.html
+
+Turing Machines (Stanford Encyclopedia of Philosophy). (2018, 24 septiembre). https://plato.stanford.edu/entries/turing-machine/
+
+Adegeo. (2022, 18 junio). Regular Expression Language - Quick Reference - .NET. Microsoft Learn. https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
